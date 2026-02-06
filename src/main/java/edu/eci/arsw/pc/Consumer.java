@@ -36,7 +36,8 @@ public final class Consumer implements Runnable {
         }
         counter.incrementAndGet();
         if (delayMs > 0)
-          Thread.sleep(delayMs);
+          //Se disminuyó el tiempo de espera para el consumidor
+          Thread.sleep(delayMs/100);
       }
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();

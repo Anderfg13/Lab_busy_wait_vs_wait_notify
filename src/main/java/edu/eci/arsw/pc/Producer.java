@@ -34,7 +34,8 @@ public final class Producer implements Runnable {
         }
         counter.incrementAndGet();
         if (delayMs > 0)
-          Thread.sleep(delayMs);
+          //Se aumentó el tiempo de espera para el consumidor
+          Thread.sleep(delayMs * 100);
         i++;
       }
     } catch (InterruptedException ie) {
