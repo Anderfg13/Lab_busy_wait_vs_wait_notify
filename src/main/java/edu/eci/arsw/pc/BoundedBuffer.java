@@ -42,4 +42,25 @@ public final class BoundedBuffer<T> {
   public int capacity() {
     return capacity;
   }
+
+  public synchronized T poll(){
+    return q.pollFirst();
+  }
+
+  public synchronized boolean offer(T item){
+    if(q.size() < capacity){
+      q.addLast(item);
+      return true;
+    }
+    return false;
+  }
+
+  public synchronized boolean isEmpty(){
+    return q.isEmpty();
+  }
+
+  public synchronized boolean isFull(){
+    return q.size() == capacity;
+  }
+
 }

@@ -30,14 +30,20 @@ public final class Consumer implements Runnable {
         } else if (queue instanceof BoundedBuffer<?> bb) {
           @SuppressWarnings("unchecked")
           BoundedBuffer<Long> q = (BoundedBuffer<Long>) bb;
-          v = q.take();
+          
+          synchronized(q) {
+              while (q.isEmpty()) {
+                  q.wait();  // Espera hasta que el productor notifique
+              }
+              v = q.poll();  // Ahora sí hay elementos, toma uno
+              q.notifyAll(); // Notifica al productor que hay espacio
+          }
         } else {
           v = -1;
         }
         counter.incrementAndGet();
         if (delayMs > 0)
-          //Se disminuyó el tiempo de espera para el consumidor
-          Thread.sleep(delayMs/100);
+          Thread.sleep(delayMs);
       }
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
