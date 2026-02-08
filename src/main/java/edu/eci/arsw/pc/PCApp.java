@@ -13,7 +13,7 @@ public final class PCApp {
     String mode = System.getProperty("mode", "monitor"); // monitor|spin
     int producers = Integer.getInteger("producers", 1);
     int consumers = Integer.getInteger("consumers", 1);
-    int capacity = Integer.getInteger("capacity", 16);
+    int capacity = Integer.getInteger("capacity", 3);
     long prodDelay = Long.getLong("prodDelayMs", 10L);
     long consDelay = Long.getLong("consDelayMs", 10L);
     int duration = Integer.getInteger("durationSec", 20);
