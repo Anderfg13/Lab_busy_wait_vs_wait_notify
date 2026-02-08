@@ -30,7 +30,13 @@ public final class Producer implements Runnable {
         } else if (queue instanceof BoundedBuffer<?> bb) {
           @SuppressWarnings("unchecked")
           BoundedBuffer<Long> q = (BoundedBuffer<Long>) bb;
-          q.put(i);
+          synchronized (q) {
+            while (q.isFull()) {
+              q.wait();  // Espera hasta que el consumidor notifique
+            }
+            q.offer(i);    // Agrega el elemento
+            q.notifyAll(); // Notifica al consumidor que hay elementos
+          }
         }
         counter.incrementAndGet();
         if (delayMs > 0)
